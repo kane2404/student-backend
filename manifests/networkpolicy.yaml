@@ -1,0 +1,43 @@
+# Moindre privilège réseau : PostgreSQL n'accepte que le backend ; le backend n'accepte que le frontend.
+# (Nécessite un CNI qui applique les NetworkPolicy : Calico, Cilium, OVN-Kubernetes...)
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: student-postgres-allow-backend
+  labels:
+    app.kubernetes.io/part-of: student-management
+spec:
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/name: student-postgres
+  policyTypes:
+    - Ingress
+  ingress:
+    - from:
+        - podSelector:
+            matchLabels:
+              app.kubernetes.io/name: student-backend
+      ports:
+        - protocol: TCP
+          port: 5432
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: student-backend-allow-frontend
+  labels:
+    app.kubernetes.io/part-of: student-management
+spec:
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/name: student-backend
+  policyTypes:
+    - Ingress
+  ingress:
+    - from:
+        - podSelector:
+            matchLabels:
+              app.kubernetes.io/name: student-frontend
+      ports:
+        - protocol: TCP
+          port: 3000

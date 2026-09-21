@@ -1,0 +1,17 @@
+{
+  "name": "student-backend",
+  "version": "0.1.0",
+  "private": true,
+  "description": "API REST de gestion des étudiants",
+  "main": "src/server.js",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "start": "node src/server.js",
+    "test": "node --test \"test/**/*.test.js\""
+  },
+  "dependencies": {
+    "pg": "^8.13.0"
+  }
+}

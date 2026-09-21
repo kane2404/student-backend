@@ -1,0 +1,17 @@
+# Service "headless" : requis par le StatefulSet, et utilisé par le backend (DB_HOST=student-postgres).
+apiVersion: v1
+kind: Service
+metadata:
+  name: student-postgres
+  labels:
+    app.kubernetes.io/name: student-postgres
+    app.kubernetes.io/component: database
+    app.kubernetes.io/part-of: student-management
+spec:
+  clusterIP: None
+  selector:
+    app.kubernetes.io/name: student-postgres
+  ports:
+    - name: postgres
+      port: 5432
+      targetPort: postgres
