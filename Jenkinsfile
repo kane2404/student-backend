@@ -3,7 +3,7 @@ pipiline{
     stage{
         stage('build docker image'){
             steps{
-                bat 'docker build -t student-backend:v1'
+                bat 'docker build -t student-backend:v1 .'
             }
         }
         stage('docker tag'){
